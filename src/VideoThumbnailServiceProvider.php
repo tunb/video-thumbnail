@@ -1,6 +1,6 @@
 <?php
 
-namespace Sukhilss\VideoThumbnail;
+namespace Pawlox\VideoThumbnail;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +17,13 @@ class VideoThumbnailServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        //
+        $config = __DIR__.'/Config/video-thumbnail.php';
+
+        $this->publishes([
+            $config => config_path('video-thumbnail.php'),
+        ]);
+
+        $this->mergeConfigFrom($config, 'video-thumbnail');
     }
 
     /**

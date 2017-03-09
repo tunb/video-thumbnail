@@ -1,14 +1,18 @@
 {
-    "name": "sukhilss/video-thumbnail",
+    "name": "pawlox/video-thumbnail",
     "description": "Video thumbnails",
     "keywords": [
-        "Video Thumbnails", "Laravel video thumbnail"
+        "Video Thumbnails", "Laravel video thumbnail", "Laravel 5"
     ],
     "license": "MIT",
     "authors": [
         {
             "name": "Sukhil S S",
             "email": "emailtosukhil@gmail.com"
+        },
+        {
+            "name": "Paweł Marciniak",
+            "email": "pawmarci@gmail.com"
         }
     ],
     "require": {
@@ -16,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sukhilss\\VideoThumbnail\\": "src/"
+            "Pawlox\\VideoThumbnail\\": "src/"
         }
     },
     "minimum-stability": "dev"

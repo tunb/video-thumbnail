@@ -4,13 +4,14 @@
  * Video thumbnail class for implementing FFMpeg Features
  */
 
-namespace Sukhilss\VideoThumbnail;
+namespace Pawlox\VideoThumbnail;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @author     sukhilss <emailtosukhil@gmail.com>
@@ -46,7 +47,7 @@ class VideoThumbnail {
             $this->thumbnail();
             $this->resizeCropImage($this->width, $this->height, $this->fullFile, $this->fullFile);
         } catch (Exception $e) {
-            
+            Log::error($e->getMessage());
         }
 
         return $this;
@@ -66,7 +67,7 @@ class VideoThumbnail {
             imageline($tmp, imagesx($tmp) / 2, imagesy($tmp) / 2, imagesx($tmp) / 2, imagesy($tmp) / 2, IMG_COLOR_BRUSHED);
             imagejpeg($tmp, $this->fullFile, 100);
         } catch (Exception $e) {
-            
+            Log::error($e->getMessage());
         }
     }
 
@@ -125,7 +126,10 @@ class VideoThumbnail {
     }
 
     private function create() {
-        $this->FFMpeg = FFMpeg::create();
+        $this->FFMpeg = FFMpeg::create([
+            'ffmpeg.binaries'  => config('video-thumbnail.binaries.ffmpeg'),
+            'ffprobe.binaries' => config('video-thumbnail.binaries.ffprobe')
+        ]);
         $this->videoObject = $this->FFMpeg->open($this->videoURL);
         return $this->videoObject;
     }
