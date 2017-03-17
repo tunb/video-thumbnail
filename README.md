@@ -22,6 +22,19 @@ And to the aliases array
 'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class
 ```
 
+Also you can publish package config file with:
+
+```
+php artisan vendor:publish --tag=video-thumbnail
+```
+
+and set ffmpeg and ffprobe paths in .env file:
+
+```
+FFMPEG="/usr/bin/ffmpeg"
+FFPROBE="/usr/bin/ffprobe"
+```
+
 ## Usage
 
 ```

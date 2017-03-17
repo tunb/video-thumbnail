@@ -21,7 +21,7 @@ class VideoThumbnailServiceProvider extends ServiceProvider {
 
         $this->publishes([
             $config => config_path('video-thumbnail.php'),
-        ]);
+        ], 'video-thumbnail');
 
         $this->mergeConfigFrom($config, 'video-thumbnail');
     }
