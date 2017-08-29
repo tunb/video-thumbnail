@@ -32,7 +32,7 @@ class VideoThumbnailServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        $this->app['VideoThumbnail'] = $this->app->share(function($app) {
+        $this->app->singleton('VideoThumbnail', function ($app) {
             return new VideoThumbnail;
         });
     }
