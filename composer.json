@@ -15,14 +15,7 @@
             "email": "pawmarci@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/PHP-FFMpeg/BinaryDriver"
-        }
-    ],
     "require": {
-        "php-ffmpeg/binary-driver": "dev-master",
         "php-ffmpeg/php-ffmpeg": "^0.11.0"
     },
     "autoload": {
@@ -30,8 +23,7 @@
             "Pawlox\\VideoThumbnail\\": "src/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "minimum-stability": "dev"
 }
 
 
