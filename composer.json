@@ -15,7 +15,14 @@
             "email": "pawmarci@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/PHP-FFMpeg/BinaryDriver.git"
+        }
+    ],
     "require": {
+        "php-ffmpeg/binary-driver": "dev-master",
         "php-ffmpeg/php-ffmpeg": "^0.11.0"
     },
     "autoload": {
