@@ -29,7 +29,30 @@ class VideoThumbnail {
     protected $height = 240;
     protected $width = 320;
     protected $screenShotTime = 1;
+    
+    public function createThumbnailFit($videoUrl, $storageUrl, $fileName, $second, $width = 640, $height = 480) {
+        $this->videoURL = $videoUrl;
+        
+        $this->storageURL = $storageUrl;
+        $this->thumbName = $fileName;        
+        $this->fullFile = "{$this->storageURL}/{$this->thumbName}";
+        
+        $this->screenShotTime = $second;
 
+        $this->width = $width;
+        $this->height = $height;
+
+        try {
+            $this->create();
+            $this->thumbnail();
+            $this->resizeImage($this->width, $this->height, $this->fullFile, $this->fullFile);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        return $this;
+    }
+    
     public function createThumbnail($videoUrl, $storageUrl, $fileName, $second, $width = 640, $height = 480) {
         $this->videoURL = $videoUrl;
         
@@ -71,6 +94,53 @@ class VideoThumbnail {
         }
     }
 
+    public function resizeImage($max_width, $max_height, $source_file, $dst_dir, $quality = 80) {
+        $imgsize = getimagesize($source_file);
+        $width = $imgsize[0];
+        $height = $imgsize[1];
+        $mime = $imgsize['mime'];
+
+        switch ($mime) {
+            case 'image/gif':
+                $image_create = "imagecreatefromgif";
+                $image = "imagegif";
+                break;
+
+            case 'image/png':
+                $image_create = "imagecreatefrompng";
+                $image = "imagepng";
+                $quality = 7;
+                break;
+
+            case 'image/jpeg':
+                $image_create = "imagecreatefromjpeg";
+                $image = "imagejpeg";
+                $quality = 80;
+                break;
+
+            default:
+                return false;
+                break;
+        }
+
+        $src_img = $image_create($source_file);
+
+        $width_new = $height * $max_width / $max_height;
+        $height_new = $width * $max_height / $max_width;
+        
+        $dst_img = imagecreatetruecolor($width_new, $height_new);
+        
+        //Resize image fitting in new size
+        imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $max_width, $max_height, $width_new, $height_new);
+        
+        $image($dst_img, $dst_dir, $quality);
+
+        if ($dst_img)
+            imagedestroy($dst_img);
+        if ($src_img)
+            imagedestroy($src_img);
+    }
+    
     public function resizeCropImage($max_width, $max_height, $source_file, $dst_dir, $quality = 80) {
         $imgsize = getimagesize($source_file);
         $width = $imgsize[0];
