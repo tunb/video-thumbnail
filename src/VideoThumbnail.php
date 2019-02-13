@@ -99,42 +99,42 @@ class VideoThumbnail {
         $width = $imgsize[0];
         $height = $imgsize[1];
         $mime = $imgsize['mime'];
-
         switch ($mime) {
             case 'image/gif':
                 $image_create = "imagecreatefromgif";
                 $image = "imagegif";
                 break;
-
             case 'image/png':
                 $image_create = "imagecreatefrompng";
                 $image = "imagepng";
                 $quality = 7;
                 break;
-
             case 'image/jpeg':
                 $image_create = "imagecreatefromjpeg";
                 $image = "imagejpeg";
                 $quality = 80;
                 break;
-
             default:
                 return false;
                 break;
         }
 
         $src_img = $image_create($source_file);
+        $ratio_orig = $width/$height;
 
-        $width_new = $height * $max_width / $max_height;
-        $height_new = $width * $max_height / $max_width;
+        if ($max_width/$max_height > $ratio_orig) {
+                $width_new = $height*$ratio_orig;
+        } else {
+                $height_new = $width/$ratio_orig;
+        }
+
         
         $dst_img = imagecreatetruecolor($width_new, $height_new);
         
         //Resize image fitting in new size
-        imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $max_width, $max_height, $width_new, $height_new);
+        imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0,$width_new, $height_new, $width, $height);
         
         $image($dst_img, $dst_dir, $quality);
-
         if ($dst_img)
             imagedestroy($dst_img);
         if ($src_img)
