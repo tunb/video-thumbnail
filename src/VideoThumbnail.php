@@ -121,7 +121,8 @@ class VideoThumbnail {
 
         $src_img = $image_create($source_file);
         $ratio_orig = $width/$height;
-
+        $width_new = $width;
+        $height_new = $height;
         if ($max_width/$max_height > $ratio_orig) {
                 $width_new = $height*$ratio_orig;
         } else {
